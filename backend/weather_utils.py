@@ -1,6 +1,8 @@
 import requests
 from datetime import datetime
 
+# -*- coding: utf-8 -*-
+
 api_key = 'ac0dcccca4c4872d8ddc59c577a4f70a'
 
 def get_current_weather(city_name, api_key):
@@ -23,18 +25,18 @@ def get_current_weather(city_name, api_key):
         return None
     
 def get_pt_data():
-    cities = ["Lisbon", "Porto" , "Vila Nova de Gaia" , "Amadora" , "Braga", "Setúbal" ,"Coimbra", "Faro", "Azores", "Madeira"]
+    cities = ["Lisbon", "Porto" , "Vila Nova de Gaia" , "Amadora" , "Braga", "Setubal" ,"Coimbra", "Faro", "Azores", "Madeira"]
 
     all_city_data = []
     for city in cities:
         weather_data = get_current_weather(city, api_key)
         if weather_data:
             city_info = {
-                "city": city_name,
+                "city": city,
                 "temperature": weather_data['main']['temp'],
                 "humidity": weather_data['main']['humidity'],
                 "weather_description": weather_data['weather'][0]['description'],
-                "sunset_time": datetime.utcfromtimestamp(weather_data['sys']['sunset']).strftime('%H:%M:%S')
+                "sunset_time": datetime.utcfromtimestamp(weather_data['sys']['sunset']).strftime('%Y-%m-%d %H:%M:%S')
             }
             all_city_data.append(city_info)
     
@@ -43,19 +45,3 @@ def get_pt_data():
     
 city_name = 'Porto'  # Replace with the desired city name
 country_code = 'PT'
-
-weather_data = get_current_weather(city_name, api_key)
-
-
-if weather_data:
-    print("Current weather data for", city_name)
-    print("Temperature:", weather_data['main']['temp'], "°C")
-    print("Humidity:", weather_data['main']['humidity'], "%")
-    print("Weather Description:", weather_data['weather'][0]['description'])
-
-    # Extract sunset time from the weather data and convert it to a human-readable format
-    sunset_time_unix = weather_data['sys']['sunset']
-    sunset_time = datetime.utcfromtimestamp(sunset_time_unix).strftime('%H:%M:%S')
-    print("Sunset Time:", sunset_time)
-else:
-    print("Failed to fetch weather data.")
